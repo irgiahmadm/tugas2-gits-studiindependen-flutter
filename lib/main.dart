@@ -1,3 +1,4 @@
+import 'package:first_flutter/screens/register/Register.dart';
 import 'package:flutter/material.dart';
 import '../screens/home/HomePageScreen.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: _title,
-      home: BottomNavBar(),
+      home: Register(),
     );
   }
 }
@@ -42,34 +43,19 @@ class _BottomNavBar extends State<BottomNavBar> {
       _selectedIndex = index;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: _widgetOptions.elementAt(_selectedIndex) 
-      ),
+      body: Container(child: _widgetOptions.elementAt(_selectedIndex)),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Add'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorite'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Profile'
-          ),
+              icon: Icon(Icons.favorite), label: 'Favorite'),
+          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Profile'),
         ],
         showSelectedLabels: false,
         showUnselectedLabels: false,
