@@ -1,5 +1,7 @@
 import 'package:first_flutter/widget/content_dialog_register.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -10,10 +12,12 @@ class Register extends StatefulWidget {
 enum Gender { male, female }
 
 class _RegisterState extends State<Register> {
+  DateTime _selectedDate = DateTime.now();
   final _formKey = GlobalKey<FormState>();
   final _username = TextEditingController();
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final _birthdate = TextEditingController();
   Gender? _gender = Gender.male;
   bool _isDeveloper = false;
 
@@ -22,8 +26,23 @@ class _RegisterState extends State<Register> {
     _username.dispose();
     _email.dispose();
     _password.dispose();
-
+    _birthdate.dispose();
     super.dispose();
+  }
+
+  _selectDate(BuildContext context) async {
+    int yearNow = DateTime.parse(DateTime.now().toString()).year;
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(1800),
+      lastDate: DateTime((yearNow + 5)),
+    );
+    if (pickedDate != null && pickedDate != _selectedDate)
+      setState(() {
+        _selectedDate = pickedDate;
+        _birthdate.text = DateFormat('yyyy-MM-dd').format(_selectedDate);
+      });
   }
 
   @override
@@ -74,9 +93,7 @@ class _RegisterState extends State<Register> {
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Password can not be empty';
-                      } else if (value.length < 6) {
-                        return 'Password must be more than 6 characters long';
+                        return 'Birthdate can not be empty';
                       }
                       return null;
                     },
@@ -99,6 +116,30 @@ class _RegisterState extends State<Register> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Username can not be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                //birthdate
+                Padding(
+                  padding: EdgeInsets.all(16),
+                  child: TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    controller: _birthdate,
+                    decoration: new InputDecoration(
+                      labelText: 'Pick birthdate',
+                      icon: Icon(Icons.calendar_today),
+                      border: OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(5.0)),
+                    ),
+                    readOnly: true,
+                    onTap: () {
+                      _selectDate(context);
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Birthdate can not be empty';
                       }
                       return null;
                     },
@@ -174,6 +215,7 @@ class _RegisterState extends State<Register> {
                             email: _email.text,
                             password: _password.text,
                             username: _username.text,
+                            birthdate: _birthdate.text,
                             gender: _gender!,
                             isDeveloper: _isDeveloper),
                         actions: [

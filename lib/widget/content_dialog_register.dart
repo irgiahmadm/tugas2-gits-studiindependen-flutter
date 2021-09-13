@@ -5,6 +5,7 @@ class ContentDialogRegister extends StatefulWidget {
   final String email;
   final String password;
   final String username;
+  final String birthdate;
   final Gender gender;
   final bool isDeveloper;
 
@@ -13,6 +14,7 @@ class ContentDialogRegister extends StatefulWidget {
     required this.email,
     required this.password,
     required this.username,
+    required this.birthdate,
     required this.gender,
     required this.isDeveloper,
   }) : super(key: key);
@@ -25,7 +27,7 @@ class _ContentDialogRegisterState extends State<ContentDialogRegister> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 180,
+      height: 250,
       child: Column(
         children: [
           Padding(
@@ -63,6 +65,18 @@ class _ContentDialogRegisterState extends State<ContentDialogRegister> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(widget.gender.toString().split('.').last),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child:
+                  Text('Birthdate', style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(widget.birthdate),
           ),
           if (widget.isDeveloper) ...[
             Padding(
