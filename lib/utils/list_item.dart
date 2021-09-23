@@ -1,20 +1,14 @@
+import '../model/user.dart';
 import 'package:flutter/material.dart';
 
 class ListItem extends StatefulWidget {
-  const ListItem({Key? key}) : super(key: key);
-
+  final List<User> list;
+  ListItem({Key? key, required this.list}) : super(key: key);
   @override
   _ListItemState createState() => _ListItemState();
 }
 
 class _ListItemState extends State<ListItem> {
-  final List<String> username = ['Amau', 'Prikiduu', 'Prikiduu'];
-  final List<String> title = ['Empty State', 'Ecommerce App', 'OnBoarding'];
-  final List<String> images = [
-    'empty state.png',
-    'ecommerce app.png',
-    'ecommerce app.png'
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,14 +20,15 @@ class _ListItemState extends State<ListItem> {
               Container(
                 child: AspectRatio(
                   aspectRatio: 1 / 1,
-                  child: Image.asset('assets/images/${images[index]}'),
+                  child:
+                      Image.asset('assets/images/${widget.list[index].image}'),
                 ),
               ),
               Container(
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      '${title[index]}',
+                      '${widget.list[index].title}',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
@@ -44,7 +39,8 @@ class _ListItemState extends State<ListItem> {
                     alignment: Alignment.centerLeft,
                     child: Column(
                       children: [
-                        Text('${username[index]}', style: TextStyle(fontSize: 16)),
+                        Text('${widget.list[index].username}',
+                            style: TextStyle(fontSize: 16)),
                       ],
                     )),
                 margin: EdgeInsets.only(
@@ -56,7 +52,7 @@ class _ListItemState extends State<ListItem> {
           ),
         ),
         separatorBuilder: (BuildContext context, int) => const Divider(),
-        itemCount: username.length,
+        itemCount: widget.list.length,
       ),
     );
   }
